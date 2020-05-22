@@ -23,10 +23,16 @@ class FlagColourViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        flagColorTableView.delegate = self
+//        flagColorTableView.dataSource = self
+    }
+    override func viewWillAppear(_ animated: Bool) {
+         super.viewWillAppear(animated)
         flagColorTableView.delegate = self
         flagColorTableView.dataSource = self
+        flagColorTableView.reloadData()
     }
-    
+
     //MARK:-Next Btn Action
     @IBAction func NextBtnAction(_ sender: Any) {
         UserDefaults.standard.set(colorArray, forKey: "ColorArray")
@@ -41,7 +47,7 @@ class FlagColourViewController: UIViewController {
             isSelected = false
             count = 0
             checkedUncheckedArr = [0,0,0,0]
-            colorArray = [""]
+            colorArray = []
         }
         else {
             isSelected = true
@@ -80,7 +86,8 @@ extension FlagColourViewController : UITableViewDelegate,UITableViewDataSource {
             checkedUncheckedArr[indexPath.row] = 0
             count-=1
             let row = indexPath.row
-            colorArray.remove(at: row)
+            var element = dataArray[indexPath.row]
+            colorArray = colorArray.filter(){$0 != "\(element)"} 
         }
 //        if count == dataArray.count {
 //            //selectAllBtn.isHighlighted = true
